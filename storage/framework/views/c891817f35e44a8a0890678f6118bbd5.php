@@ -146,22 +146,22 @@
         <div class="photo-container" id="photo-container">
             <!-- Manually added image items for now -->
             <div class="photo-item">
-                <img src="{{ asset('images/minecraft.png') }}" alt="Minecraft">
+                <img src="<?php echo e(asset('images/minecraft.png')); ?>" alt="Minecraft">
                 <h3>Minecraft</h3>
             </div>
 
             <div class="photo-item">
-                <img src="{{ asset('images/blender.png') }}" alt="Blender">
+                <img src="<?php echo e(asset('images/blender.png')); ?>" alt="Blender">
                 <h3>Blender</h3>
             </div>
 
             <div class="photo-item">
-                <img src="{{ asset('images/ninja.png') }}" alt="Ninja">
+                <img src="<?php echo e(asset('images/ninja.png')); ?>" alt="Ninja">
                 <h3>Ninja</h3>
             </div>
 
             <div class="photo-item">
-                <img src="{{ asset('images/soutez.png') }}" alt="Soutěž">
+                <img src="<?php echo e(asset('images/soutez.png')); ?>" alt="Soutěž">
                 <h3>Soutěž</h3>
             </div>
         </div>
@@ -207,4 +207,4 @@
     </script>
 
 </body>
-</html>
+</html><?php /**PATH C:\Users\Honza\Desktop\necoLaravel-main\resources\views/welcome.blade.php ENDPATH**/ ?>

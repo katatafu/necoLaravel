@@ -144,12 +144,26 @@
         <h1 class="text-3xl font-bold text-center mb-6">My Portfolio</h1>
 
         <div class="photo-container" id="photo-container">
-            <?php $__currentLoopData = $photos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $photo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <div class="photo-item" data-id="<?php echo e($photo->id); ?>" data-title="<?php echo e(strtolower($photo->title)); ?>">
-                    <img src="<?php echo e(asset('images/soutěž.png')); ?>" alt="<?php echo e($photo->title); ?>">
-                    <h3><?php echo e($photo->title); ?></h3>
-                </div>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <!-- Manually added image items for now -->
+            <div class="photo-item">
+                <img src="<?php echo e(asset('images/minecraft.png')); ?>" alt="Minecraft">
+                <h3>Minecraft</h3>
+            </div>
+
+            <div class="photo-item">
+                <img src="<?php echo e(asset('images/blender.png')); ?>" alt="Blender">
+                <h3>Blender</h3>
+            </div>
+
+            <div class="photo-item">
+                <img src="<?php echo e(asset('images/ninja.png')); ?>" alt="Ninja">
+                <h3>Ninja</h3>
+            </div>
+
+            <div class="photo-item">
+                <img src="<?php echo e(asset('images/soutez.png')); ?>" alt="Soutěž">
+                <h3>Soutěž</h3>
+            </div>
         </div>
     </div>
 
@@ -193,5 +207,4 @@
     </script>
 
 </body>
-</html>
-<?php /**PATH C:\Users\Aly\Documents\laravel-backend\resources\views/welcome.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\Users\Aly\Documents\laravel-backend\resources\views/welcome.blade.php ENDPATH**/ ?>
