@@ -190,7 +190,9 @@
         }
 
     </style>
+    
 </head>
+
 <body class="bg-gray-100">
 
     <!-- ✅ Loading Overlay (white screen with spinner and logo) -->
@@ -200,14 +202,119 @@
         <p id="loading-text" class="mt-4 text-gray-800 text-xl font-semibold">Loading...</p>
     </div>
 
-    <!-- ✅ Navbar -->
-    <nav class="navbar">
-        <a href="/">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg" class="h-8 w-8 mr-2" alt="Laravel Logo">
-        </a>
+   <!-- ✅ Navbar -->
+<nav class="navbar flex justify-between items-center px-6 py-4 bg-white shadow-md fixed w-full top-0 z-50">
+    <!-- Logo -->
+    <a href="/">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg" class="h-8 w-8" alt="Laravel Logo">
+    </a>
+
+    <!-- Right Section (Search + Buttons) -->
+    <div class="flex items-center gap-4">
         <!-- Search Bar -->
-        <input type="text" id="search" placeholder="Search photos..." class="search-bar">
-    </nav>
+        <input type="text" id="search" placeholder="Search photos..." class="search-bar px-4 py-2 border rounded-md w-64">
+
+        <!-- Add Photo Button -->
+        <button onclick="document.getElementById('photoUpload').click()" class="add-photo-btn px-4 py-2 bg-purple-600 text-white rounded-lg shadow-md hover:bg-purple-700 transition-all">Přidat fotku</button>
+        <input type="file" id="photoUpload" class="hidden" accept="image/*" onchange="addPhoto(event)">
+
+        <!-- Login & Register Buttons -->
+        <a href="/login" class="login-btn px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all">Login</a>
+        <a href="/register" class="register-btn px-4 py-2 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition-all">Register</a>
+    </div>
+</nav>
+
+<!-- ✅ Filtr -->
+<div class="filter-container mt-4">
+    <label for="filter">Filtr:</label>
+    <select id="filter" class="border rounded-md p-2" onchange="filterPhotos()">
+        <option value="all">Všechny</option>
+        <option value="newest">Nejnovější</option>
+        <option value="oldest">Nejstarší</option>
+    </select>
+</div>
+
+<!-- ✅ Photo Gallery Container -->
+<div class="container mt-4 p-6">
+    <div class="photo-container grid grid-cols-2 gap-4" id="photo-container">
+        <!-- Fotky se sem dynamicky přidají -->
+    </div>
+</div>
+
+<script>
+    let photos = []; // Seznam fotek s datem přidání
+
+    function addPhoto(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const today = new Date().toISOString().split('T')[0];
+
+                // Uložení fotky s datem
+                const photoObj = {
+                    src: e.target.result,
+                    date: today
+                };
+                photos.push(photoObj);
+
+                renderPhotos();
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function renderPhotos(filteredPhotos = photos) {
+        const photoContainer = document.getElementById('photo-container');
+        photoContainer.innerHTML = '';
+
+        filteredPhotos.forEach((photo, index) => {
+            const photoItem = document.createElement('div');
+            photoItem.classList.add('photo-item', 'relative', 'bg-gray-200', 'rounded-lg', 'overflow-hidden', 'shadow-md', 'hover:scale-105', 'transition-all');
+
+            // Obrázek
+            const img = document.createElement('img');
+            img.src = photo.src;
+            img.classList.add('w-full', 'h-full', 'object-cover', 'aspect-square');
+
+            // Koš ikonka
+            const deleteIcon = document.createElement('div');
+            deleteIcon.innerHTML = "🗑️";
+            deleteIcon.classList.add('delete-icon', 'absolute', 'top-2', 'right-2', 'bg-white', 'p-2', 'rounded-full', 'cursor-pointer', 'hidden');
+            deleteIcon.onclick = () => deletePhoto(index);
+
+            // Přidání hover efektu
+            photoItem.onmouseenter = () => deleteIcon.classList.remove('hidden');
+            photoItem.onmouseleave = () => deleteIcon.classList.add('hidden');
+
+            // Přidání prvků
+            photoItem.appendChild(img);
+            photoItem.appendChild(deleteIcon);
+            photoContainer.appendChild(photoItem);
+
+            // Animace
+            gsap.from(photoItem, { opacity: 0, scale: 0.5, duration: 0.5 });
+        });
+    }
+
+    function deletePhoto(index) {
+        photos.splice(index, 1);
+        renderPhotos();
+    }
+
+    function filterPhotos() {
+        const filter = document.getElementById('filter').value;
+        let filteredPhotos = [...photos];
+
+        if (filter === 'newest') {
+            filteredPhotos.sort((a, b) => new Date(b.date) - new Date(a.date));
+        } else if (filter === 'oldest') {
+            filteredPhotos.sort((a, b) => new Date(a.date) - new Date(b.date));
+        }
+
+        renderPhotos(filteredPhotos);
+    }
+</script>
 
     <!-- ✅ Filter Sidebar Under Navbar -->
     <div class="filter-sidebar">
